@@ -1,6 +1,6 @@
--- find the most recent trades on opensea in the last 7 days 
+-- find the most recent trades on opensea in the last 24 hours 
 select * 
 from opensea.trades
-WHERE block_time > now() - interval '7 days' AND amount_usd IS NOT NULL
+WHERE block_time > now() - interval '24 hours' AND amount_usd IS NOT NULL
 ;
 
