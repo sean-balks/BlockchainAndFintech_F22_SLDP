@@ -7,3 +7,6 @@ to find common data regarding nfts, eth and trade volumes.
 # Pre-Post Merge Data
 In order to analyze the effects of the ethereum pre/post merge, we should attempt to query for data 
 before and after the date of the merge, which is September 15th 2022 to analyze trends. 
+
+# ETH Participation Rate
+
