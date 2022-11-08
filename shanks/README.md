@@ -11,4 +11,5 @@ before and after the date of the merge, which is September 15th 2022 to analyze 
 # ETH Participation Rate
 This query will pull data on the number of attestations on ETH before and after the merge. Participation rate data can allow us to gain insights on the finalization times for transactions added to the chain.
 
-
+# Number of Validator Nodes
+Analyzes the number of validator nodes on the proof of stake model post merge. 
