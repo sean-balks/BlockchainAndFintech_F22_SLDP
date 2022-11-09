@@ -4,7 +4,7 @@ WITH
       DAY,
       address,
       token_address,
-      sum(amount) AS amount -- Net inflow or outflow per day
+      sum(amount) AS amount
     FROM
       (
         SELECT
@@ -13,9 +13,9 @@ WITH
           tr.contract_address AS token_address,
           value AS amount
         FROM
-          erc20."ERC20_evt_Transfer" tr --INNER JOIN addresses ad ON tr."to" = ad.adr
+          erc20."ERC20_evt_Transfer" tr 
         WHERE
-          contract_address = REPLACE(LOWER('0xE5a3229CCb22b6484594973A03a3851dCd948756'), '0x', '\x') :: bytea --Token address
+          contract_address = REPLACE(LOWER('0xE5a3229CCb22b6484594973A03a3851dCd948756'), '0x', '\x') :: bytea
         UNION ALL
         SELECT
           date_trunc('day', evt_block_time) AS DAY,
@@ -23,7 +23,7 @@ WITH
           tr.contract_address AS token_address,
           - value AS amount
         FROM
-          erc20."ERC20_evt_Transfer" tr --INNER JOIN addresses ad ON tr."from" = ad.adr
+          erc20."ERC20_evt_Transfer" tr 
         WHERE
           contract_address = REPLACE(LOWER('0xE5a3229CCb22b6484594973A03a3851dCd948756'), '0x', '\x') :: bytea
       ) t
@@ -41,12 +41,11 @@ WITH
         ORDER BY
           t.day
       ) AS balance,
-      -- balance per day with a transfer
       lead(DAY, 1, now()) OVER (
         PARTITION BY address
         ORDER BY
           t.day
-      ) AS next_day -- the day after a day with a transfer
+      ) AS next_day 
     FROM
       transfers t
   ),
@@ -56,7 +55,7 @@ WITH
         '2016-05-01' :: TIMESTAMP,
         date_trunc('month', NOW()),
         '1 month'
-      ) AS DAY -- Generate all days since the first contract
+      ) AS DAY 
   ),
   balance_all_days AS (
     SELECT
@@ -66,8 +65,7 @@ WITH
     FROM
       balances_with_gap_days b
       INNER JOIN days d ON b.day <= d.day
-      AND d.day < b.next_day -- Yields an observation for every day after the first transfer until the next day with transfer
-      --INNER JOIN erc20.tokens erc ON b.token_address = erc.contract_address
+      AND d.day < b.next_day 
     GROUP BY
       1,
       2
@@ -78,8 +76,8 @@ WITH
 SELECT
   b.day AS "Date",
   case
-    when balance / 1e18 < 32 then 'a. less than 32'
-    when balance / 1e18 >= 32 then 'd. more than or equal to 32'
+    when balance / 1e18 < 32 then ' < 32 eth'
+    when balance / 1e18 >= 32 then '>= 32 eth'
   end as balance_cat,
   COUNT(distinct address) AS "Holders",
   COUNT(address) - lag(COUNT(address)) OVER (
@@ -95,5 +93,4 @@ GROUP BY
   2
 ORDER BY
   2;
-
---all credits to user "apricot" whose original query can be found @ https://duneanalytics.com/queries/15304
+--credit to @rokfinsql for logic behind query https://dune.com/queries/110207
