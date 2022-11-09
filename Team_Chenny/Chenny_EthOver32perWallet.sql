@@ -15,7 +15,7 @@ WITH
         FROM
           erc20."ERC20_evt_Transfer" tr 
         WHERE
-          contract_address = REPLACE(LOWER('0xE5a3229CCb22b6484594973A03a3851dCd948756'), '0x', '\x') :: bytea
+          contract_address = '\xE5a3229CCb22b6484594973A03a3851dCd948756':: bytea
         UNION ALL
         SELECT
           date_trunc('day', evt_block_time) AS DAY,
@@ -25,7 +25,7 @@ WITH
         FROM
           erc20."ERC20_evt_Transfer" tr 
         WHERE
-          contract_address = REPLACE(LOWER('0xE5a3229CCb22b6484594973A03a3851dCd948756'), '0x', '\x') :: bytea
+          contract_address = '0xE5a3229CCb22b6484594973A03a3851dCd948756':: bytea
       ) t
     GROUP BY
       1,
