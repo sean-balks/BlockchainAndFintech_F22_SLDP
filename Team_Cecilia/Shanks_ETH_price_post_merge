@@ -1,0 +1,7 @@
+SELECT date_trunc('day', minute) as time
+, AVG(price)
+FROM prices.usd
+WHERE symbol='ETH'
+AND minute > '2022-09-15'
+GROUP BY time
+;
