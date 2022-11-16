@@ -55,7 +55,7 @@ SELECT distinct et.`from` AS address
             AND et2.`to`= lower('0xA090e606E30bD747d4E6245a1517EbE430F0057e')
             WHERE et.`to`=lower('0x00000000219ab540356cBB839Cbe05303d7705Fa')
             AND et.success
-            AND cast(value as decimal(38,0)) != 0
+            AND cast(et.value as decimal(38,0)) != 0
             GROUP BY et.`from`
             ) coinbase
 UNION
