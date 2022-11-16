@@ -7,7 +7,7 @@ date_trunc('day', block_time) as day,
     SUM(usd_amount) as usd_amount
 FROM 
 (SELECT * FROM nft.trades where original_currency= 'ETH' OR original_currency= 'WETH') as eth
-WHERE block_time  >= '2022-06-15 00:00'
+WHERE block_time  >= '2022-08-26 00:00'
         and block_time <= '2022-09-15 00:00'
 AND buyer != seller
 GROUP BY day 
