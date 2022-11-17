@@ -50,12 +50,12 @@ SELECT coinbase.address
         , 'CEX' AS category
         FROM (
 SELECT distinct et.`from` AS address
-            FROM ethereum.traces et
-            INNER JOIN ethereum.traces et2 ON et2.`from`=et.`from` AND et2.value > 0 
+            FROM ethereum.transactions et
+            INNER JOIN ethereum.transactions et2 ON et2.`from`=et.`from` AND et2.value > 0 
             AND et2.`to`= lower('0xA090e606E30bD747d4E6245a1517EbE430F0057e')
             WHERE et.`to`=lower('0x00000000219ab540356cBB839Cbe05303d7705Fa')
             AND et.success
-            AND cast(et.value as decimal(38,0)) != 0
+            AND et.value > 0
             GROUP BY et.`from`
             ) coinbase
 UNION
