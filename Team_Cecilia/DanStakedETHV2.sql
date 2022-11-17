@@ -1,4 +1,4 @@
--- Query 1, staked eth post merge. Takes about 15 seconds to run
+-- Query 1, staked eth post merge. Takes about 60 seconds to run
 
 with deposit as (
     select sum(value)/1e18 as total_deposit_eth ,
